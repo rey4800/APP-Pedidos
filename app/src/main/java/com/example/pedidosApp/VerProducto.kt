@@ -5,9 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import com.android.volley.Request
@@ -19,6 +21,7 @@ import com.example.pedidosApp.adapters.ProductoAdapter
 import com.example.pedidosApp.config.Conexion
 import com.example.pedidosApp.config.Config
 import com.example.pedidosApp.modelos.Producto
+import com.google.firebase.auth.FirebaseAuth
 import org.json.JSONArray
 import org.json.JSONObject
 import www.sanju.motiontoast.MotionToast
@@ -36,6 +39,7 @@ class VerProducto : AppCompatActivity() {
     lateinit var imagenVer:ImageView
     lateinit var producto: Producto
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_producto)
@@ -44,7 +48,9 @@ class VerProducto : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        var id = intent.getStringExtra("Id")
+
+
+        var id = intent.getStringExtra("Id").toString()
 
 
 
@@ -71,13 +77,46 @@ class VerProducto : AppCompatActivity() {
         }
 
 
-       // var conexion = Conexion(this)
-        //var db = conexion.writableDatabase
 
-       /*btnAgregar.setOnClickListener{
-           db.execSQL("INSERT into carrito(id_producto, cantidad) values($producto.id, $txtCantidad.text.toString() )")
-            startActivity(Intent(this, Carrito::class.java))
-        }*/
+        var conexion = Conexion(this)
+        var db = conexion.writableDatabase
+       btnAgregar.setOnClickListener{
+
+           var sql = "SELECT * FROM carrito WHERE id_producto=" + producto.id
+           var respuesta = db.rawQuery(sql,null)
+
+           if(respuesta.moveToFirst()){
+
+               var cantidadVieja = respuesta.getString(2).toDouble()//respuesta getstring(2) hace refrencia a la segunda columna de la tabla local carrito
+               var cantidadNueva = txtCantidad.text.toString()
+               var cantidadTotal = cantidadNueva.toDouble() + cantidadVieja
+
+               db.execSQL("UPDATE carrito SET cantidad ="+cantidadTotal+" WHERE id_producto = "+producto.id)
+
+               startActivity(Intent(this, Carrito::class.java))
+
+           }else{
+
+               db.execSQL("INSERT into carrito(id_producto, cantidad, precio) values("+producto.id+","+txtCantidad.text.toString()+","+producto.precio+")")
+               startActivity(Intent(this, Carrito::class.java))
+
+           }
+
+        }
+
+
+
+    }
+
+
+
+
+    fun verCarrito(view: View){
+
+        var intent = Intent(this,Carrito::class.java)
+        this.startActivity(intent)
+        finish()
+
 
     }
 

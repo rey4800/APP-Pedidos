@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "780110367331",
+    "project_id": "igf-final",
+    "storage_bucket": "igf-final.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780110367331:android:2b75946e58e60213ed8656",
+        "android_client_info": {
+          "package_name": "com.example.pedidosApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780110367331-mg0lngsu2qk9e3oofsgtnc9ud05cml7t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pedidosApp",
+            "certificate_hash": "ef897ef604a326cbad33d743649a34efa3f1f4af"
+          }
+        },
+        {
+          "client_id": "780110367331-lakpaf37jnb5j98k2fgv8qi8msckggcp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_rVOgcy9z3OWpoJmSc81koomi4fYZxIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780110367331-lakpaf37jnb5j98k2fgv8qi8msckggcp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

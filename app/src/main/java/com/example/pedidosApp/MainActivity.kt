@@ -1,19 +1,21 @@
 package com.example.pedidosApp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
 import com.example.pedidosApp.vistas.ComprasFragment
-import com.example.pedidosApp.vistas.FavsFragment
 import com.example.pedidosApp.vistas.HomeFragment
+import com.example.pedidosApp.vistas.loginVista.LoginActivity
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private lateinit var toolbar: Toolbar
     private lateinit var nav_view: NavigationView
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,8 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
          toolbar =findViewById(R.id.toolbar)
          drawer_layout = findViewById(R.id.drawer_layout)
          nav_view = findViewById(R.id.nav_view)
+        firebaseAuth = FirebaseAuth.getInstance()
+
 
          val toggle = ActionBarDrawerToggle(
              this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -38,7 +43,33 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         findViewById<TextView>(R.id.toolbarIndicator).text="20"
         supportFragmentManager.beginTransaction().replace(R.id.mainContent,HomeFragment()).commit()
 
+        cargarDatosdeUsuario()
+
+
+
 }
+
+    fun cargarDatosdeUsuario(){
+
+        if (firebaseAuth.currentUser != null) {
+            var id = firebaseAuth.currentUser?.email
+            val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
+            val headerview = navigationView.getHeaderView(0)
+
+            headerview.findViewById<TextView>(R.id.txtMail).setText(id.toString())
+
+        }
+
+
+    }
+
+    fun verCarrito(view:View){
+
+        var intent = Intent(this,Carrito::class.java)
+        this.startActivity(intent)
+
+
+    }
 
 override fun onBackPressed() {
  if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -58,10 +89,15 @@ override fun onOptionsItemSelected(item: MenuItem): Boolean {
  // Handle action bar item clicks here. The action bar will
  // automatically handle clicks on the Home/Up button, so long
  // as you specify a parent activity in AndroidManifest.xml.
- when (item.itemId) {
-     R.id.action_settings -> return true
-     else -> return super.onOptionsItemSelected(item)
- }
+    return when (item.itemId) {
+        R.id.not -> {
+
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
 }
 
 override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -72,7 +108,9 @@ override fun onNavigationItemSelected(item: MenuItem): Boolean {
          setTitle("Import")
      }
      R.id.nav_second_fragment -> {
-         supportFragmentManager.beginTransaction().replace(R.id.mainContent,FavsFragment()).commit()
+        // supportFragmentManager.beginTransaction().replace(R.id.mainContent,FavsFragment()).commit()
+         var intent = Intent(this,Carrito::class.java)
+         this.startActivity(intent)
          setTitle("Gallery")
      }
      R.id.nav_third_fragment -> {
@@ -80,43 +118,20 @@ override fun onNavigationItemSelected(item: MenuItem): Boolean {
          setTitle("Carrito")
      }
 
+     R.id.cerrarSesion ->{
+
+         firebaseAuth.signOut()
+         var intent = Intent(this,LoginActivity::class.java)
+         this.startActivity(intent)
+         finish()
+
+     }
+
  }
 
  drawer_layout.closeDrawer(GravityCompat.START)
  return true
 }
-/*fun setupDrawer(): ActionBarDrawerToggle {
- return  ActionBarDrawerToggle(this, mDrawer,toolbar,"Open","Close")
-}*/
-/*override fun onOptionsItemSelected(item: MenuItem): Boolean {
- var fragment:Fragment
-
-  when (item.itemId) {
-     android.R.id.home -> {
-         mDrawer.openDrawer(GravityCompat.START);
-
-         true
-     }
-     R.id.nav_first_fragment -> {
-         supportFragmentManager.beginTransaction().replace(R.id.flContent,ComprasFragment()).commit()
-         true
-     }
-      R.id.nav_second_fragment -> {
-          supportFragmentManager.beginTransaction().replace(R.id.flContent,FavsFragment()).commit()
-          true
-      }
-      R.id.nav_third_fragment -> {
-          supportFragmentManager.beginTransaction().replace(R.id.flContent,ComprasFragment()).commit()
-          true
-      }
-
-     else -> super.onOptionsItemSelected(item)
- }
- item.setChecked(true)
- setTitle(item.title)
- mDrawer.closeDrawers()
- return true
-}*/
 
 
 }

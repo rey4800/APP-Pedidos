@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Carrito">
+    tools:context=".vistas.pagos.ContraEntregaActivity">
+
 
     <ImageView
         android:id="@+id/volverImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="volverHome"
         android:layout_marginTop="5dp"
         android:src="@drawable/ic_back" />
 
@@ -19,12 +19,70 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="30dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listaCarrito"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="500dp" />
+            android:layout_height="wrap_content"
+            android:text="Pedido Contra Entrega"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Detalles de Entrega:"
+                    android:textAlignment="textStart"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".2"
+                    android:text="Municipio/Departamento"
+                    android:textAlignment="textEnd"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/txtMunicipio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Municipio/Departamento"
+                    android:inputType="text" />
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".2"
+                    android:text="Detalle direccion de entrega:"
+                    android:textAlignment="textEnd"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+                <EditText
+                    android:id="@+id/txtDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Direccion Entrega"
+                    android:inputType="textMultiLine" />
+
+
+            </LinearLayout>
 
 
         <LinearLayout
@@ -77,15 +135,16 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnPedir"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="@color/principal"
-            android:onClick="aplicarCompra"
-            android:text="@string/Aplicar"
+            android:text="@string/Pedir"
             android:textColor="@color/fondo" />
 
 
     </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout >
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

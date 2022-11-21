@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class Conexion(var context:Context):SQLiteOpenHelper(context, "carrito.sql", null,1) {
     override fun onCreate(p0: SQLiteDatabase?) {
-        var tablaCarrito = "CREATE TABLE carrito (id not null primary key autoincrement, id_producto Integer, cantidad Double)"
+        var tablaCarrito = "CREATE TABLE carrito (id Integer not null primary key autoincrement, id_producto Integer, cantidad Double, precio Double)"
         p0?.execSQL(tablaCarrito)
     }
 

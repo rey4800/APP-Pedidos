@@ -7,5 +7,6 @@
     <string name="agregar">Agregar</string>
     <string name="Aplicar">Aplicar</string>
     <string name="subtotal">Subtotal</string>
+    <string name="Pedir">Realizar Pedido</string>
     <string name="total">Total</string>
 </resources>
