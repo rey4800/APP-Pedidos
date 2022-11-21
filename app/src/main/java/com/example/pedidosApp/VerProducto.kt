@@ -131,10 +131,10 @@ class VerProducto : AppCompatActivity() {
 
                 producto = Producto(
                         item.getString("id"),
-                        item.getString("name"),
-                        item.getString("price"),
-                        item.getString("image"),
-                        item.getString("description"),
+                        item.getString("nombre"),
+                        item.getString("precio"),
+                        item.getString("imagen"),
+                        item.getString("descripcion"),
                         item.getString("id_category")
                 )
 
