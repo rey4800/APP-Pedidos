@@ -104,6 +104,7 @@ class Carrito : AppCompatActivity() {
             var intent = Intent(this,CardPaymentActivity::class.java)
             intent.putExtra("total",txtTotal2.text.toString())
             this.startActivity(intent)
+            finish()
 
         }else{
 

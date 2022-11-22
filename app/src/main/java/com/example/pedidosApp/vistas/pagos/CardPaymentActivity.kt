@@ -23,6 +23,9 @@ import com.google.firebase.auth.FirebaseAuth
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.lang.Math.abs
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.math.roundToInt
 
 
@@ -100,7 +103,7 @@ class CardPaymentActivity : AppCompatActivity() {
 
                         var direccionEnvio:String = direccion + "," + municipio
                         insertarPedido(idPedido,idUsuario,"0.00",total,direccionEnvio)
-                        InsertarDetallesPedidos(idPedido)
+
 
                         MotionToast.darkToast(this,"Compra Realizada",
                             "Muchas gracias por su compra pedido en camino!",
@@ -108,6 +111,8 @@ class CardPaymentActivity : AppCompatActivity() {
                             MotionToast.GRAVITY_BOTTOM,
                             MotionToast.LONG_DURATION,
                             ResourcesCompat.getFont(this,R.font.helvetica_regular))
+
+                        InsertarDetallesPedidos(idPedido)
 
                         var intent = Intent(this, MainActivity::class.java)
                         this.startActivity(intent)
@@ -142,9 +147,10 @@ class CardPaymentActivity : AppCompatActivity() {
 
             }while (respuesta.moveToNext())
 
-            db.execSQL("DELETE FROM carrito")
 
         }
+
+        db.execSQL("DELETE FROM carrito")
 
     }
 
@@ -154,6 +160,11 @@ class CardPaymentActivity : AppCompatActivity() {
     fun insertarPedido(id:String,usuarioid:String,costosEnvio:String,monto:String,direccion:String){
         var config = Config()
         var url ="${config.ipServer}/pedido"
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+        val fecha = currentDate.toString()
+
+
         val queue = Volley.newRequestQueue(this)
 
         val postRequest: StringRequest = object : StringRequest(
@@ -167,12 +178,13 @@ class CardPaymentActivity : AppCompatActivity() {
         ) {
             override fun getParams(): Map<String, String>? {
                 val params: MutableMap<String, String> = HashMap()
-                //params["id"] = id
+                params["id"] = id
                 params["id_usuario"] = usuarioid
                 params["costo_envio"] = costosEnvio
                 params["monto"] = monto
                 params["id_tipopago"] = "4"
-               params["fecha"] = direccion
+               params["fecha"] = fecha
+                params["direccion_envio"] = direccion
                 params["status"] = "1"
                 return params
             }
@@ -206,7 +218,7 @@ class CardPaymentActivity : AppCompatActivity() {
         ) {
             override fun getParams(): Map<String, String>? {
                 val params: MutableMap<String, String> = HashMap()
-                params["id_pedido"] = "84"//idpedido
+                params["id_pedido"] = idpedido
                 params["id_combo"] = comboid
                 params["precio"] = precio
                 params["cantidad"] = cantidad
