@@ -133,9 +133,9 @@ class VerProducto : AppCompatActivity() {
                         item.getString("id"),
                         item.getString("nombre"),
                         item.getString("precio"),
-                        item.getString("imagen"),
+                    config.image+item.getString("imagen"),
                         item.getString("descripcion"),
-                        item.getString("id_category")
+                        item.getString("id_categories")
                 )
 
                 nombreVer.text = producto.nombre

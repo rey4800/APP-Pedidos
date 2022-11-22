@@ -153,7 +153,7 @@ class CardPaymentActivity : AppCompatActivity() {
 
     fun insertarPedido(id:String,usuarioid:String,costosEnvio:String,monto:String,direccion:String){
         var config = Config()
-        var url ="${config.ipServer}/pedidos"
+        var url ="${config.ipServer}/pedido"
         val queue = Volley.newRequestQueue(this)
 
         val postRequest: StringRequest = object : StringRequest(
@@ -167,12 +167,12 @@ class CardPaymentActivity : AppCompatActivity() {
         ) {
             override fun getParams(): Map<String, String>? {
                 val params: MutableMap<String, String> = HashMap()
-                params["id"] = id
-                params["usuarioid"] = usuarioid
+                //params["id"] = id
+                params["id_usuario"] = usuarioid
                 params["costo_envio"] = costosEnvio
                 params["monto"] = monto
-                params["tipopagoid"] = "1"
-                params["direccion_envio"] = direccion
+                params["id_tipopago"] = "4"
+               params["fecha"] = direccion
                 params["status"] = "1"
                 return params
             }
@@ -192,7 +192,7 @@ class CardPaymentActivity : AppCompatActivity() {
     fun detallesPedido(idpedido:String,comboid:String,precio:String,cantidad:String){
 
         var config = Config()
-        var url ="${config.ipServer}/detallepedidos"
+        var url ="${config.ipServer}/detallepedido"
         val queue = Volley.newRequestQueue(this)
 
         val postRequest: StringRequest = object : StringRequest(
@@ -206,10 +206,11 @@ class CardPaymentActivity : AppCompatActivity() {
         ) {
             override fun getParams(): Map<String, String>? {
                 val params: MutableMap<String, String> = HashMap()
-                params["pedidoid"] = idpedido
-                params["comboid"] = comboid
+                params["id_pedido"] = "84"//idpedido
+                params["id_combo"] = comboid
                 params["precio"] = precio
                 params["cantidad"] = cantidad
+                params["status"] = "1"
 
                 return params
             }

@@ -3,6 +3,8 @@ package com.example.pedidosApp.vistas
 
 import android.content.Context
 import android.os.Bundle
+import android.service.carrier.CarrierMessagingService.ResultCallback
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.pedidosApp.MainActivity
 import com.example.pedidosApp.R
 import com.example.pedidosApp.adapters.ProductoAdapter
 import com.example.pedidosApp.config.Config
 import com.example.pedidosApp.modelos.Producto
 import org.json.JSONArray
+import org.json.JSONException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,15 +41,16 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     var productos = ArrayList<Producto>()
-    lateinit var recyclerView:RecyclerView
+    private var recyclerView:RecyclerView? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+
+
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,12 +61,21 @@ class HomeFragment : Fragment() {
 
          recyclerView = view.findViewById<RecyclerView>(R.id.listaPrincipal)
 
-        recyclerView?.layoutManager = GridLayoutManager(view.context, 1)
 
+        recyclerView?.layoutManager = LinearLayoutManager(view.context,LinearLayoutManager.VERTICAL, false)
+
+        /*val linearLayoutManager:LinearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView?.layoutManager = linearLayoutManager*/
         recargar(view.context)
 
+
         return view
+
+
     }
+
+
 
 
     fun recargar( contexto:Context){
@@ -76,12 +92,11 @@ class HomeFragment : Fragment() {
                         item.getString("id"),
                         item.getString("nombre"),
                         item.getString("precio"),
-                        item.getString("imagen"),
+                        config.image+item.getString("imagen"),
                         item.getString("descripcion"),
-                        item.getString("id_category")
+                        item.getString("id_categories")
 
                         ))
-
 
                 }
                 var adapter = ProductoAdapter(productos)
@@ -89,6 +104,7 @@ class HomeFragment : Fragment() {
 
             }, {
 
+                Log.d("API", "that didn't work")
 
                 });
 
