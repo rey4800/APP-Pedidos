@@ -74,8 +74,7 @@ class CardPaymentActivity : AppCompatActivity() {
     var cv = txtCV.text.toString()
         var total = txtTotal.text.toString()
         var idUsuario = firebaseAuth.currentUser?.uid.toString()
-        val idPedido1 = abs((0..999999).random())
-        val idPedido =idPedido1.toString()
+
 
 
 
@@ -101,6 +100,8 @@ class CardPaymentActivity : AppCompatActivity() {
                     DialogInterface.OnClickListener { dialog, which ->
 
 
+                        val idPedido1 = (0..10000).random()
+                        val idPedido =idPedido1.toString()
                         var direccionEnvio:String = direccion + "," + municipio
                         insertarPedido(idPedido,idUsuario,"0.00",total,direccionEnvio)
 
@@ -147,10 +148,11 @@ class CardPaymentActivity : AppCompatActivity() {
 
             }while (respuesta.moveToNext())
 
+            db.execSQL("DELETE FROM carrito")
 
         }
 
-        db.execSQL("DELETE FROM carrito")
+
 
     }
 
