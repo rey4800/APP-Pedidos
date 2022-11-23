@@ -16,6 +16,13 @@
 
         android:theme="@style/Theme.CarritoApp">
         <activity
+            android:name=".PerfilActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".vistas.loginVista.RegisterActivity"
             android:exported="false">
             <meta-data
@@ -53,10 +60,8 @@
         <activity android:name=".VerProducto" />
         <activity android:name=".Carrito" />
         <activity
-            android:name="com.example.pedidosApp.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:name=".MainActivity"
+            android:exported="false"></activity>
     </application>
 
 </manifest>

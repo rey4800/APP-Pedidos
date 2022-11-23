@@ -7,7 +7,11 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.example.pedidosApp.R
+import com.example.pedidosApp.modelos.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
@@ -15,6 +19,9 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var txtEmail: TextView
     lateinit var txtPassword: TextView
     lateinit var txtConfirmPassword: TextView
+    lateinit var txtName: TextView
+    lateinit var txtPhone: TextView
+    private lateinit var database: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,17 +33,21 @@ class RegisterActivity : AppCompatActivity() {
         txtEmail = findViewById(R.id.emailEt)
         txtPassword = findViewById(R.id.passET)
         txtConfirmPassword = findViewById(R.id.confirmPassEt)
+        txtEmail = findViewById(R.id.emailEt)
 
     }
 
 
     fun Registrarse(view: View) {
 
+        val name = txtName.text.toString()
+        val phone = txtPhone.text.toString()
         val email = txtEmail.text.toString()
         val pass = txtPassword.text.toString()
         val confirmPass = txtConfirmPassword.text.toString()
 
-        if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
+        if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty() && name.isNotEmpty() &&
+                phone.isNotEmpty()) {
             if (pass == confirmPass) {
 
                 firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
@@ -44,9 +55,13 @@ class RegisterActivity : AppCompatActivity() {
 
                         var id = firebaseAuth.currentUser?.uid
 
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        database = FirebaseDatabase.getInstance().getReference("Users")
+                        val user = User(name, phone, email)
+                        database.child(id.toString()).setValue(user).addOnSuccessListener {
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
 
                     } else {
                         Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
